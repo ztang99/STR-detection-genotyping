@@ -3,8 +3,7 @@
 This repository contains the bioinformatics pipeline used for the analysis of whole genome sequencing data in the study of Inherited Peripheral Neuropathy (IPN). The pipeline includes modules for alignment, variant calling, quality control, gene annotation, and Short Tandem Repeat (STR) detection.
 
 ## Repository Structure
-
-.
+```markdown
 ├── Alignment\
 │   └── parabricksFsq2Bams.sh            # FASTQ to BAM conversion using Parabricks\
 ├── Gene_annotation\
@@ -28,6 +27,7 @@ This repository contains the bioinformatics pipeline used for the analysis of wh
     ├── 7_BuildDatabase.sh               # Build STR sequence database\
     ├── 8_QueryDatabase.sh               # Query STR database\
     └── 9_UnsupervisedIPNFinalStep.R     # Unsupervised clustering for RFC1 repeat analysis
+```
 
 ## Pipeline Components
 
