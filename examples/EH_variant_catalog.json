@@ -1,0 +1,32 @@
+[
+    {
+        "LocusId": "RFC1",
+        "LocusStructure": "(AAGAG)*",
+        "ReferenceRegion": "4:39348426-39349038",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "RFC1",
+        "LocusStructure": "(AAAAG)*",
+        "ReferenceRegion": "4:39348426-39349038",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "RFC1",
+        "LocusStructure": "(AAGAC)*",
+        "ReferenceRegion": "4:39348426-39349038",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "RFC1",
+        "LocusStructure": "(AAAGG)*",
+        "ReferenceRegion": "4:39348426-39349038",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "RFC1",
+        "LocusStructure": "(AAGGG)*",
+        "ReferenceRegion": "4:39348426-39349038",
+        "VariantType": "Repeat"
+    }
+]
