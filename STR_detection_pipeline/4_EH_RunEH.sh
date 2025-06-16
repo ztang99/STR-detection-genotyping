@@ -4,6 +4,8 @@
 
 # Step 4: Run ExpansionHunter.
 
+## Docker: ztang301/exph:v2.1
+
 ## author: Zitian Tang
 ## contact: tang.zitian@wustl.edu
 
@@ -14,7 +16,6 @@ if [ "$#" -lt 4 ]; then
     exit 1
 fi
 
-export LSF_DOCKER_VOLUMES='/storage1/fs1/jin810:/storage1/fs1/jin810 /scratch1/fs1/jin810:/scratch1/fs1/jin810 /storage2/fs1/epigenome/Active:/storage2/fs1/epigenome/Active /home/tang.zitian:/home/tang.zitian'
 
 PROJECT_NAME="$1"
 SUBNAME="$2"
@@ -55,12 +56,11 @@ run_expansion_hunter() {
         echo "Processing sample: ${sample_name}"
         echo "BAM path: ${bam_path}"
 
-        bsub -G compute-jin810 -q general-interactive -R 'rusage[mem=4GB]' -a 'docker(ztang301/exph:v2.1)' \
-            /ExpansionHunter/build/install/bin/ExpansionHunter \
-                --reads ${bam_path} \
-                --reference ${REF} \
-                --variant-catalog ${EH_CATALOG_JSON} \
-                --output-prefix ${out_prefix}
+        /ExpansionHunter/build/install/bin/ExpansionHunter \
+            --reads ${bam_path} \
+            --reference ${REF} \
+            --variant-catalog ${EH_CATALOG_JSON} \
+            --output-prefix ${out_prefix}
 
         if [ $? -eq 0 ]; then
             echo "Successfully processed ${sample_name}"
@@ -75,8 +75,7 @@ run_expansion_hunter() {
 # Generate EH catalog
 if [ ! -f "${EH_CATALOG_JSON}" ]; then
     echo "Generating ExpansionHunter catalog..."
-    bsub -K -G compute-jin810 -q general-interactive -n 1 -R 'rusage[mem=4GB]' -a 'docker(elle72/basic:vszt)' \
-        /opt/conda/bin/python AllScripts/python_scripts/wdl_IPN_generate_EHcatalog.py \
+    /opt/conda/bin/python python_scripts/wdl_IPN_generate_EHcatalog.py \
         "${EH_CATALOG_JSON}" "${EHDN_RESULTS}"
 
     if [ $? -ne 0 ]; then
@@ -88,13 +87,6 @@ fi
 # Run EH for cases and controls
 run_expansion_hunter "${CASE_BAM_PATHS}" "${PATH_TO_CASE_RESULTS}"
 run_expansion_hunter "${CONTROL_BAM_PATHS}" "${PATH_TO_CONTROL_RESULTS}"
-
-# Wait for all EH jobs to complete
-echo "Waiting for all ExpansionHunter jobs to complete..."
-job_id_string=$(IFS=":"; echo "${job_ids[*]}")
-if [ -n "$job_id_string" ]; then
-    bwait -w "ended(${job_id_string})"
-fi
 
 # Check outputs
 echo -e "\nChecking EH individual outputs..."

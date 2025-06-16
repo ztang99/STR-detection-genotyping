@@ -46,7 +46,7 @@ process_gene_motif() {
             
             if [ ! -f "${DB_PATH}" ]; then
                 echo "Processing SAM files and initializing database: ${DB_NAME}"
-                /opt/conda/bin/python AllScripts/python_scripts/wdl_addBlatResult2db.py \
+                /opt/conda/bin/python python_scripts/wdl_addBlatResult2db.py \
                     --mode init \
                     --db-path ${DB_PATH} \
                     --gene ${gene} \
@@ -57,7 +57,7 @@ process_gene_motif() {
             
             echo "Processing BLAT results for ${gene}_${motif}..."
             
-            /opt/conda/bin/python /storage1/fs1/jin810/Active/testing/ztang/code/TRE_IPN/pipeline_scripts/AllScripts/python_scripts/wdl_addBlatResult2db.py \
+            /opt/conda/bin/python python_scripts/wdl_addBlatResult2db.py \
                 --mode blat \
                 --db-path ${DB_PATH} \
                 --psl-files ${PSL_DIR}/*.psl

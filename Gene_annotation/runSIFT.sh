@@ -2,7 +2,7 @@
 
 ##############################################################################
 
-# Running SIFT for deleterious gene annotation.
+# Code record for running SIFT to annotate deleterious variants.
 
 ## author: Zitian Tang
 ## contact: tang.zitian@wustl.edu

@@ -4,6 +4,8 @@
 
 # BAM file quality check using `samtools`.
 
+## Docker: elle72/basic:vszt
+
 ## author: Zitian Tang
 ## contact: tang.zitian@wustl.edu
 
@@ -47,14 +49,14 @@ while IFS= read -r input_bam; do
     
     if [ ! -s "$stats_output" ]; then
         echo "Running samtools stats..."
-        bsub -R "rusage[mem=4GB]" -G compute-jin810 -q general -o /dev/null -e logs/20250204_IPNQC/IPN_%J.log -a 'docker(elle72/basic:vszt)' /bin/bash -c '(samtools stats -@ 4 '${input_bam}' > '${stats_output}')'
+        samtools stats -@ 4 '${input_bam}' > '${stats_output}'
     else
         echo ">>>stats output already exists and is non-empty."
     fi
     
     if [ ! -s "$depth_output" ]; then
         echo "Running samtools depth..."
-        bsub -g /tang.zitian/TRE -R "rusage[mem=4GB]" -G compute-jin810 -q general -oo logs/20250205_IPNQC_depth/%J.log -a "docker(elle72/basic:vszt)" bash code/QC/run_qc/tmp_Samtools.sh "${input_bam}" "${depth_output}"
+        bash tmp_Samtools.sh "${input_bam}" "${depth_output}"
     else
         echo ">>>depth output already exists and is non-empty."
     fi

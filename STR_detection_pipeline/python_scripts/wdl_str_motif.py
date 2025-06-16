@@ -1,3 +1,11 @@
+
+##############################################################################
+
+# Defines the STRMotif class.
+# author: Zitian Tang
+
+##############################################################################
+
 class STRMotif:
     def __init__(self, gene=None, motif=None, start=None, end=None, chrom=None, carriers=None):
         self.gene = gene

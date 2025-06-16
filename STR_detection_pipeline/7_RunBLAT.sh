@@ -4,60 +4,34 @@
 
 # Step 7: Run BLAT in defined STR regions.
 
+## Docker: ztang301/exph:v2.1
+## Docker for BLAT: ztang301/basic:vsamtools_samblaster_blat_2
+
 ## author: Zitian Tang
 ## contact: tang.zitian@wustl.edu
 
 ##############################################################################
 
 # Check minimum required arguments (5 arguments, with roi_bed being optional)
-if [ "$#" -lt 4 ]; then
-    echo "Usage: $0 <ehdn_results> <eh_results> <case_bams_list> <control_bams_list> [roi_bed]"
+if [ "$#" -lt 2 ]; then
+    echo "Usage: $0 <project_name> <subname>"
     exit 1
 fi
 
 PROJECT_NAME=$1
 SUBNAME=$2
-CASE_BAM_PATHS=$3
-CONTROL_BAM_PATHS=$4
-ROI_BED=$5  # Optional parameter, can be empty
+
+REF="Homo_sapiens_assembly38.fasta"
 
 OUTPUT_DIR="${PROJECT_NAME}/output"
-
-EHDN_RESULTS="${OUTPUT_DIR}/EHdn/${SUBNAME}/EHdn_combined_results.csv"
-EH_RESULTS="${OUTPUT_DIR}/EH/${SUBNAME}/EH_combined_all4rfc1.vcf"
 
 WORKDIR="${OUTPUT_DIR}/BLAT/${SUBNAME}"
 mkdir -p ${WORKDIR}
 
-ALL_BAMS_LIST="${WORKDIR}/all_bams.txt"
-cat ${CASE_BAM_PATHS} ${CONTROL_BAM_PATHS} > ${ALL_BAMS_LIST}
-
 COMBINED_JSON="${WORKDIR}/str_motifs_RFC1.json"
 
-# CombineEHdnEH
-echo "Combining EHdn and EH results..."
 
-CMD="/opt/conda/bin/python AllScripts/python_scripts/wdl_combine_ehdn_eh.py \
-    --ehdn-results ${EHDN_RESULTS} \
-    --eh-results ${EH_RESULTS} \
-    --bams ${ALL_BAMS_LIST} \
-    --min-overlap-percent 10 \
-    --output-file ${COMBINED_JSON}"
-
-# Add ROI_BED parameter only if it's provided
-if [ ! -z "${ROI_BED}" ]; then
-    CMD="${CMD} --roi-bed ${ROI_BED}"
-fi
-
-# # Execute the command using bsub
-${CMD}
-
-if [ ! -f "${COMBINED_JSON}" ]; then
-    echo "Error: Combined results file not found: ${COMBINED_JSON}"
-    exit 1
-fi
-
-# Step 2: Generate SAM files
+# Generate SAM files
 
 cat > ${WORKDIR}/process_json.py << 'EOL'
 import json
@@ -94,12 +68,11 @@ done < ${WORKDIR}/motif_carriers.txt
 rm ${WORKDIR}/process_json.py ${WORKDIR}/motif_carriers.txt
 
 
-# Step 3: Generate FASTA files
-GENE_OF_INTEREST="RFC1"
+# Generate FASTA files
 
-for dir in ${WORKDIR}/SAMs/${GENE_OF_INTEREST}_*; do
+for dir in ${WORKDIR}/SAMs/*; do
     if [ ! -d "$dir" ]; then
-        echo "No directories found matching ${GENE_OF_INTEREST}_*"
+        echo "No directories found"
         continue
     fi
 
@@ -128,7 +101,6 @@ for dir in ${WORKDIR}/SAMs/${GENE_OF_INTEREST}_*; do
         psl_file="${PSL_DIR}/${sample_name}.psl"
 
         echo "Processing SAM file: ${sample_name}"
-        # bsub -G compute-jin810 -q general-interactive -R 'rusage[mem=4GB]' -a 'docker(elle72/basic:vszt)' \
         if [ ! -f "$fasta_file" ]; then
             /opt/conda/bin/python AllScripts/python_scripts/wdl_query_STR_db.py \
                 filter_reads_to_fasta \
@@ -144,7 +116,6 @@ for dir in ${WORKDIR}/SAMs/${GENE_OF_INTEREST}_*; do
         fi
 
         echo "Submitted BLAT job for ${sample_name}..."
-        bsub -g /tang.zitian/misc -G compute-jin810-t3 -q subscription -sla jin810_t3 -R 'rusage[mem=6GB]' -a 'docker(ztang301/basic:vsamtools_samblaster_blat_2)' \
-            blat ${REF} ${fasta_file} ${psl_file} -t=dna -q=dna -repMatch=1000000
+        blat ${REF} ${fasta_file} ${psl_file} -t=dna -q=dna -repMatch=1000000
     done
 done

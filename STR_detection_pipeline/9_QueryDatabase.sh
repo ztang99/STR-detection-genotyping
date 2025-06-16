@@ -26,7 +26,7 @@ JSON_FILE="${OUTPUT_DIR}/BLAT/${SUBNAME}/str_motifs_RFC1.json"
 
 echo "Querying STR sequences..."
 
-QUERY_OUTPUT_DIR="${OUTPUT_DIR}/QueryResults"
+QUERY_OUTPUT_DIR="${OUTPUT_DIR}/QueryResults/${SUBNAME}"
 mkdir -p ${QUERY_OUTPUT_DIR}
 
 
@@ -35,7 +35,7 @@ process_query() {
     local gene=$(echo ${gene_motif} | cut -d'_' -f1)
     local motif=$(echo ${gene_motif} | cut -d'_' -f2)
     local db_path="${DB_DIR}/${SUBNAME}_${gene_motif}.db"
-    local output_file="${QUERY_OUTPUT_DIR}/${SUBNAME}_${gene_motif}_results_try2.txt"
+    local output_file="${QUERY_OUTPUT_DIR}/${SUBNAME}_${gene_motif}_results.txt"
 
     if [ -f "${db_path}" ]; then
         echo "Querying sequences for ${gene_motif}..."
@@ -47,7 +47,7 @@ process_query() {
             roi_args="--json-file ${JSON_FILE}"
         fi
 
-        /opt/conda/bin/python AllScripts/python_scripts/wdl_query_STR_db.py \
+        /opt/conda/bin/python python_scripts/wdl_query_STR_db.py \
             --db-path ${db_path} \
             --gene ${gene} \
             --motif ${motif} \

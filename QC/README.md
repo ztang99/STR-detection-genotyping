@@ -7,3 +7,4 @@ Scripts used for conducting sequencing quality controls.
 - `ethnicity_pred_gnomad_cont.py`: Predict sample ancestry using gnomAD continental probabilities
 - `snvstory_ethnicity_check.sh`: Run SNVstory for ancestry determination
 - `snvstory_selectVariant.sh`: Select variants from gVCF files for SNVstory
+- `tmp_Samtools.sh`: Helper function to calculate average BAM coverage

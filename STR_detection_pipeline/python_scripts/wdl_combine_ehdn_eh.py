@@ -1,3 +1,15 @@
+
+##############################################################################
+
+# Helper script for obtaining consensus calls from 
+# ExpansionHunterDenovo and ExpansionHunter.
+# Called by 6_CombineEhdnEH.sh
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 import argparse
 import os
 import re
@@ -247,146 +259,3 @@ def main():
 if __name__ == '__main__':
     main()
     
-    
-    
-
-### archived 12/17 ###
-# def find_bam_path(sample_id, bams):
-#     """Search for BAM file matching the sampleID in all 3 batches sub-directories."""
-#     batch_dirs = [d for d in os.listdir(bam_dir) if os.path.isdir(os.path.join(bam_dir, d)) and 'bams' in d]
-    
-#     for bd in batch_dirs:
-#         bd_path = os.path.join(bam_dir, bd)
-
-#         patterns = [
-#             f"TWHJ-PNRR-{sample_id}.bam", 
-#             f"TWHJ-PNRR-{sample_id}-{sample_id}.bam",
-#             f"PNRR-{sample_id}.bam"
-#         ]
-
-#         for pp in patterns:
-#             potential_path = os.path.join(bd_path, pp)
-#             if os.path.exists(potential_path):
-#                 return potential_path
-    
-#     return None
-
-# def load_ehdn_results(ehdn_files):
-#     """Load and combine EHdn results from multiple files."""
-#     dfs = []
-#     for file in ehdn_files:
-#         if os.path.exists(file):
-#             df = pd.read_csv(file)
-#             dfs.append(df)
-#     return pd.concat(dfs).drop_duplicates().reset_index(drop=True) if dfs else pd.DataFrame()
-
-# def identify_motifs_from_results(ehdn_data, eh_data, bam_dir, min_overlap_percent=50):
-#     """Identify and create STR motifs from EHdn and EH results."""
-#     passing_mask = ehdn_data.apply(check_repeatmasker_motif, axis=1)
-#     filtered_data = ehdn_data[passing_mask].copy()
-
-#     motifs = []
-#     for _, row in filtered_data.iterrows():
-#         gene = row['gene']
-#         motif_seq = row['motif']
-#         print(gene, motif_seq)
-        
-#         # ehdn_samples = set([s.split(':')[0] for s in str(row['raw_data']).split(',')])
-#         ehdn_samples = set([re.sub(r'[^A-Za-z0-9_]', '_', s.split(':')[0]) for s in str(row['raw_data']).split(',')])
-#         # print(ehdn_samples)
-#         eh_samples = set(eh_data[(eh_data['REPID'] == gene) & (eh_data['RU'] == motif_seq)]['SampleID'])
-#         # print(eh_samples)
-
-#         overlap_samples = ehdn_samples & eh_samples
-#         print(overlap_samples)
-#         total_samples = ehdn_samples | eh_samples
-#         print(total_samples)
-
-#         if total_samples:
-#             overlap_percent = len(overlap_samples) * 100 / len(total_samples)
-#             if overlap_percent >= min_overlap_percent:
-#                 str_motif = STRMotif(
-#                     gene=gene,
-#                     motif=motif_seq,
-#                     start=int(row['start']),
-#                     end=int(row['end']),
-#                     chrom=str(row['chr'])
-#                 )
-
-#                 missing_samples = []
-#                 for sample in total_samples:
-#                     if sample in bam_mapping:
-#                         str_motif.add_carrier(bam_mapping[sample])
-#                     else:
-#                         missing_samples.append(sample)
-                
-#                 if missing_samples:
-#                     print(f"Warning: could not find BAM for samples in {gene}: {', '.join(missing_samples)}")
-                
-                
-#                 # for ss in total_samples:
-#                 #     bam_path = find_bam_path(ss, bam_dir)
-#                 #     if bam_path:
-#                 #         str_motif.add_carrier(bam_path)
-#                 #     else:
-#                 #         missing_samples.append(ss)
-                
-#                 # if missing_samples:
-#                 #     print(f"Warning: could not find BAM for the following samples in {gene}: ")
-#                 #     print(", ".join(missing_samples))
-
-#                 motifs.append(str_motif)
-    
-#     return motifs
-
-# def load_eh_results(eh_results_file):
-#     """Process EH results file to split FORMAT column into separate columns. """
-#     df = pd.read_csv(eh_results_file)
-    
-#     info_fields = set()
-#     for info in df['INFO'].str.split(';'):
-#         for field in info:
-#             field_name = field.split('=')[0]
-#             info_fields.add(field_name)
-#     info_fields = sorted(list(info_fields)) # ['END', 'REF', 'REPID', 'RL', 'RU', 'VARID']
-    
-#     info_data = {}
-#     for field in info_fields:
-#         info_data[field] = []
-        
-#     for info in df['INFO']:
-#         current_values = {field: '' for field in info_fields}
-        
-#         for item in info.split(';'):
-#             if '=' in item:
-#                 key, value = item.split('=', 1)
-#                 current_values[key] = value
-        
-#         for field in info_fields:
-#             info_data[field].append(current_values[field])
-    
-#     format_cols = df.iloc[0]['FORMAT'].split(':')
-#     variant_data = df['VARIANTS'].str.split(':', expand=True)
-    
-#     new_df = pd.DataFrame()
-    
-#     basic_cols = ['SampleID', 'CHROM', 'POS', 'ID', 'REF', 'ALT']
-#     for col in basic_cols:
-#         new_df[col] = df[col].astype(str)
-    
-#     for field in info_fields:
-#         new_df[field] = info_data[field]
-    
-#     for i, col in enumerate(format_cols):
-#         new_df[col] = variant_data[i].astype(str)
-   
-#     for col in new_df.columns:
-#         new_df[col] = new_df[col].astype(str)
-#         new_df[col] = new_df[col].replace('nan', '')
-    
-#     # df = df.drop(['FORMAT', 'VARIANTS'], axis=1)
-
-#     # for i, col in enumerate(format_cols):
-#     #     df[col] = variant_data[i]
-    
-#     return new_df

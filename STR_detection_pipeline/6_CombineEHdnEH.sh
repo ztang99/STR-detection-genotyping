@@ -4,14 +4,14 @@
 
 # Step 6: Combine ExpansionHunterDenovo and ExpansionHunter results.
 
+## Docker: ztang301/exph:v2.1
+
 ## author: Zitian Tang
 ## contact: tang.zitian@wustl.edu
 
 ##############################################################################
 
 # Usage: bash 5_RunBLAT.sh <ehdn_results> <eh_results> <case_bams_list> <control_bams_list> [roi_bed]
-
-export LSF_DOCKER_VOLUMES='/storage1/fs1/jin810:/storage1/fs1/jin810 /scratch1/fs1/jin810:/scratch1/fs1/jin810 /storage2/fs1/epigenome/Active:/storage2/fs1/epigenome/Active /home/tang.zitian:/home/tang.zitian'
 
 # Check minimum required arguments (5 arguments, with roi_bed being optional)
 if [ "$#" -lt 4 ]; then
@@ -30,9 +30,7 @@ REF="/storage1/fs1/jin810/Active/References/GRCh38/parabricks_sample/Ref/Homo_sa
 
 EHDN_RESULTS="${OUTPUT_DIR}/EHdn/${SUBNAME}/EHdn_combined_results.csv"
 EH_RESULTS="${OUTPUT_DIR}/EH/${SUBNAME}/EH_combined_all4DRG20genes.vcf"
-# WORKDIR="${OUTPUT_DIR}/BLAT/${SUBNAME}"
-# WORKDIR="${OUTPUT_DIR}/BLAT/${SUBNAME}_All4Two"
-WORKDIR="${OUTPUT_DIR}/BLAT/${SUBNAME}_skipRM"
+WORKDIR="${OUTPUT_DIR}/BLAT/${SUBNAME}"
 
 mkdir -p ${WORKDIR}
 
@@ -45,11 +43,11 @@ COMBINED_JSON="${WORKDIR}/ConsensusSTRMotifs.json"
 echo "Combining EHdn and EH results..."
 
 ## 20250512 - passed in skipRM to bypass repeatmasker check and keep all shared motifs
-CMD="/opt/conda/bin/python /storage1/fs1/jin810/Active/testing/ztang/code/TRE_IPN/pipeline_scripts/AllScripts/python_scripts/wdl_combine_ehdn_eh.py \
+CMD="/opt/conda/bin/python python_scripts/wdl_combine_ehdn_eh.py \
     --ehdn-results ${EHDN_RESULTS} \
     --eh-results ${EH_RESULTS} \
     --bams ${ALL_BAMS_LIST} \
-    --min-overlap-percent 1 \
+    --min-overlap-percent 10 \
     --output-file ${COMBINED_JSON} \
     --skipRM"
 
@@ -59,7 +57,6 @@ if [ ! -z "${ROI_BED}" ]; then
 fi
 
 # # Execute the command using bsub
-# bsub -K -G compute-jin810 -q general-interactive -n 1 -R 'rusage[mem=4GB]' -a 'docker(elle72/basic:vszt)' ${CMD}
 ${CMD}
 
 if [ ! -f "${COMBINED_JSON}" ]; then

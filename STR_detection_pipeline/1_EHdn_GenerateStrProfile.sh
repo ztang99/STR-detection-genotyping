@@ -4,6 +4,8 @@
 
 # Step 1: Generate STR profiles using ExpansionHunterDenovo.
 
+## Docker: ztang301/exph:v1.2
+
 ## author: Zitian Tang
 ## contact: tang.zitian@wustl.edu
 
@@ -33,8 +35,7 @@ while IFS= read -r bam_path; do
     
     echo "Processing sample: ${sample_name}"
     echo "BAM path: ${bam_path}"
-    
-    # bsub -G compute-jin810 -q general-interactive -n 2 -R 'rusage[mem=6GB]' -a 'docker(ztang301/exph:v1.2)' \
+
     /ExpansionHunterDenovo/build/ExpansionHunterDenovo profile \
         --reads "${bam_path}" \
         --reference "${REF}" \

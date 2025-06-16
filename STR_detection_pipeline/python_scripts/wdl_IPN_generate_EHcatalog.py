@@ -1,3 +1,14 @@
+
+##############################################################################
+
+# Helper script for generating ExpansionHunter catalog file.
+# Called by 4_EH_RunEH.sh
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 import os
 import sys
 import json

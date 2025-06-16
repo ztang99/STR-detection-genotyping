@@ -17,7 +17,7 @@ Calls helper script: `python_scripts/wdl_IPN_generate_EHcatalog.py`
 `5_CombineEHResult.sh`: Combine ExpansionHunter results\
 Calls helper script: `python_scripts/wdl_filter_eh_vcfs.py`
 
-`6_CombineEhdnEH.sh`: Combine ExpansionHunterDenovo and ExpansionHunter results\
+`6_CombineEhdnEH.sh`: Obtain consensus calls from ExpansionHunterDenovo and ExpansionHunter results\
 Calls helper script: `python_scripts/wdl_combine_ehdn_eh.py`
 
 `7_RunBLAT.sh`: Run BLAT alignment of STR regions\

@@ -7,6 +7,8 @@
 # Script takes in samplenames either through manual entering or a .txt file with each line denote a sample.
 # Script can skip samples which has BAMs already generated in out_dir (i.e., resubmit only a proportion of samples).
 
+## Docker: nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1
+
 ## author: Zitian Tang
 ## contact: tang.zitian@wustl.edu
 
@@ -69,7 +71,7 @@ for sample_name in "${sample_names[@]}"; do
         RGTAG="@RG\tID:${sample_name}\tLB:lib1\tPL:Illumina\tSM:${sample_name}\tPU:${sample_name}"
         mkdir -p "${work_dir}/BAM/TMP/${sample_name}"
         
-        bsub -o "${log_dir}/%J_${sample_name}.out" -e "${log_dir}/%J_${sample_name}.err" -M 500GB -R 'gpuhost rusage[mem=350GB, tmp=40GB]' -G compute-jin810 -q general -gpu "num=2:j_exclusive=no" -a 'docker(nvcr.io/nvidia/clara/clara-parabricks:4.0.0-1)' TMPDIR="${work_dir}/BAM/TMP/${sample_name}" pbrun germline --ref "${PARA_REF}" \
+        pbrun germline --ref "${PARA_REF}" \
             --in-fq "${fastq_r1}" "${fastq_r2}" "${RGTAG}" \
             --knownSites "${pKS4}" \
             --out-bam "${out_bam}" \

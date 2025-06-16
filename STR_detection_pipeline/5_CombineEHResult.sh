@@ -31,7 +31,7 @@ EH_COMBINED_IR="${WORKDIR}/EH_combined_ir4all.vcf"
 EH_COMBINED_RFC1="${WORKDIR}/EH_combined_all4rfc1.vcf"
 
 
-echo "Combining ExpansionHunter results in INREPEAT mode..."
+echo "Combining ExpansionHunter results..."
 
 vcf_files=()
 for vcf in ${PATH_TO_CASE_RESULTS}/*.vcf ${PATH_TO_CONTROL_RESULTS}/*.vcf; do
@@ -43,19 +43,12 @@ for vcf in ${PATH_TO_CASE_RESULTS}/*.vcf ${PATH_TO_CONTROL_RESULTS}/*.vcf; do
     fi
 done
 
-if [ ! -f "${EH_COMBINED_IR}" ]; then
-    /opt/conda/bin/python AllScripts/python_scripts/wdl_filter_eh_vcfs.py \
-        --output-file "${EH_COMBINED_IR}" \
+## updated 0604 ##
+if [ ! -f "${EH_COMBINED}_IRRonly.csv" ]; then
+    /opt/conda/bin/python python_scripts/wdl_filter_eh_vcfs.py \
+        --gene RFC1 \
         --vcf-files "${vcf_files[@]}" \
-        --mode inrepeat4all
-fi
-
-if [ ! -f "${EH_COMBINED_RFC1}" ]; then
-    /opt/conda/bin/python AllScripts/python_scripts/wdl_filter_eh_vcfs.py \
-        --output-file "${EH_COMBINED_RFC1}" \
-        --vcf-files "${vcf_files[@]}" \
-        --mode all4gene \
-        --gene-name RFC1
+        --output-prefix "${EH_COMBINED}"
 fi
 
 

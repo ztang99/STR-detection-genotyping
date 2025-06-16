@@ -1,3 +1,14 @@
+
+##############################################################################
+
+# Helper script for annotating ExpansionHunterDenovo calls.
+# Called by 3_EHdn_RunAnnotEHdn.sh
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 import os
 import sys
 import numpy as np
@@ -210,35 +221,3 @@ def main():
 if __name__ == '__main__':
     main()
     
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-## old ver archived ##
-# if len(sys.argv) != 5:
-#         print("Usage: python filter_exdn_results.py <outlier_locus> <casecontrol_locus> " +
-#               "<output_dir> <repeatmasker_file> <gene_list_files>")
-#         sys.exit(1)
-
-#     exdn_otl_path = sys.argv[1]
-#     exdn_caco_path = sys.argv[2]
-#     output_dir = sys.argv[3]
-#     repeat_masker_path = sys.argv[4]
-#     gene_list_files = sys.argv[5].split(',')
-
-#     # Constants for Fisher's exact test
-#     case_total = 798        #need to get rid of this
-#     control_total = 887     #need to get rid of this (or input from outside)
-
-    # os.makedirs(output_dir, exist_ok=True)
