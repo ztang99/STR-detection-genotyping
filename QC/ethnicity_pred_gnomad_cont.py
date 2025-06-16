@@ -1,4 +1,12 @@
-#!/usr/bin/env python3
+
+##############################################################################
+
+# Predict samples' ethinicity using gnomAD.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
 
 import os
 import glob

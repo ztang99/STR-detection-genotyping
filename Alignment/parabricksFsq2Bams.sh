@@ -2,10 +2,13 @@
 
 ##############################################################################
 
-# This file is for aligning combined FASTQs to BAMs. Each sample need to have only 1 FASTQ for R1 and R2, respectively.
+# This script is for aligning combined FASTQs to BAMs. Each sample need to have only 1 FASTQ for R1 and R2, respectively.
 # Script uses parabricks implementation of GATK Germline pipeline with 2 GPUs.
 # Script takes in samplenames either through manual entering or a .txt file with each line denote a sample.
 # Script can skip samples which has BAMs already generated in out_dir (i.e., resubmit only a proportion of samples).
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
 
 ##############################################################################
 

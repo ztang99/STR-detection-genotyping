@@ -1,5 +1,14 @@
 #!/bin/bash
 
+##############################################################################
+
+# Step 8: Build STR information database for all samples.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 if [ "$#" -lt 2 ]; then
     echo "Usage: $0 <project_name> <subname> [roi_bed]"
     exit 1

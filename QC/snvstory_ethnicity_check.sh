@@ -1,5 +1,13 @@
 #!/bin/bash
-# SNVStory Runner - Consolidated Script
+
+##############################################################################
+
+# Ethnicity check using SNV story.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
 
 export LSF_DOCKER_VOLUMES='/storage1/fs1/jin810:/storage1/fs1/jin810 /scratch1/fs1/jin810:/scratch1/fs1/jin810 /storage2/fs1/epigenome/Active:/storage2/fs1/epigenome/Active /home/tang.zitian:/home/tang.zitian'
 

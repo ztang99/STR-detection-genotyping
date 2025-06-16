@@ -1,5 +1,14 @@
 #!/bin/bash
 
+##############################################################################
+
+# Step 2: Create STR manifest file for ExpansionHunterDenovo.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 if [ -z "$4" ]; then
     echo "Error: Please provide at least 4 arguments."
     exit 1

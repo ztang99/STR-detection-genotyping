@@ -1,5 +1,14 @@
 #!/bin/bash
 
+##############################################################################
+
+# BAM file quality check using `samtools`.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 if [ "$#" -ne 2 ]; then
     echo "Usage: $0 <input_file_list> <output_directory>"
     exit 1

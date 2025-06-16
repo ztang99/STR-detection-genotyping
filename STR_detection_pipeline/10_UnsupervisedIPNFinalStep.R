@@ -1,3 +1,13 @@
+
+##############################################################################
+
+# Step 10: STR genotyping via unsupervised clustering.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 # Required libraries
 library(tidyverse)
 library(cluster)

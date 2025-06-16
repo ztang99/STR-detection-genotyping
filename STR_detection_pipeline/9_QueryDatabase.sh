@@ -1,5 +1,14 @@
 #!/bin/bash
 
+##############################################################################
+
+# Step 9: Query STR database for certain motif(s).
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 if [ "$#" -lt 2 ]; then
     echo "Usage: $0 <project_name> <subname> [roi_bed]"
     exit 1

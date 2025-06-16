@@ -1,5 +1,14 @@
 #!/bin/bash
 
+##############################################################################
+
+# Select variants from gVCF files before running `snvstory`.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 if [ $# -ne 1 ]; then
     echo "Usage: $0 <input.g.vcf>"
     exit 1

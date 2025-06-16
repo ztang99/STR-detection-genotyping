@@ -1,5 +1,14 @@
 #!/bin/bash
 
+##############################################################################
+
+# Step 7: Run BLAT in defined STR regions.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 # Check minimum required arguments (5 arguments, with roi_bed being optional)
 if [ "$#" -lt 4 ]; then
     echo "Usage: $0 <ehdn_results> <eh_results> <case_bams_list> <control_bams_list> [roi_bed]"

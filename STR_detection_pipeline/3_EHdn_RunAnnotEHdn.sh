@@ -1,5 +1,14 @@
 #!/bin/bash
 
+##############################################################################
+
+# Step 3: Run ExpansionHunterDenovo & annotate the results.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 # Check if required arguments are provided
 if [ -z "$2" ]; then
     echo "Error: Please provide 1) manifest file path"

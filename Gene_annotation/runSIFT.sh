@@ -1,6 +1,13 @@
 #!/bin/bash
 
-### Running SIFT for deleterious gene annotation.
+##############################################################################
+
+# Running SIFT for deleterious gene annotation.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
 
 # Setting up snpEff environment
 export SNPEFF_HOME=/tmp

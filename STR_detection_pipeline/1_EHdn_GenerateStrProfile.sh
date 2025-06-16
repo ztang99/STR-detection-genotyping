@@ -1,5 +1,14 @@
 #!/bin/bash
 
+##############################################################################
+
+# Step 1: Generate STR profiles using ExpansionHunterDenovo.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 if [ -z "$3" ]; then
     echo "Error: Please provide 1) txt file with BAM paths; 2) Mode - cases or controls; 3) outdir."
     exit 1

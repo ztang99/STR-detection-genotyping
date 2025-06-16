@@ -1,4 +1,12 @@
-#!/usr/bin/env python3
+
+##############################################################################
+
+# Determine deleterious variants based on SIFT score and annotation.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
 
 import os
 import csv

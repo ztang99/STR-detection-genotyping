@@ -1,5 +1,14 @@
 #!/bin/bash
 
+##############################################################################
+
+# Step 4: Run ExpansionHunter.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
+
 if [ "$#" -lt 4 ]; then
     echo "Error: Please provide required arguments: 1) EHdn combined result; 2) BAM txt for cases; 3) BAM txt for controls."
     exit 1

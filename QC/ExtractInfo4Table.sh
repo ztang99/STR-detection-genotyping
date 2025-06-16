@@ -1,5 +1,14 @@
 #!/bin/bash
 
+##############################################################################
+
+# Extract QC metrics for a list of BAM files.
+# Raw QC metrics are based on `samtools stats` and `samtools depth`.
+
+## author: Zitian Tang
+## contact: tang.zitian@wustl.edu
+
+##############################################################################
 
 # Function to get value after a specific pattern from samtools stats
 get_stats_value() {
