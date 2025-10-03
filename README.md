@@ -123,7 +123,7 @@ You should expect the following folder structure after the pipeline finishes run
 ## Citation
 If you use this pipeline in your research, please cite our paper:
 
-> [Paper citation information to be added upon publication]
+> Tang Z, Ovunc SS, Mehinovic E, et al. Heterozygous and Homozygous RFC1 AAGGG Repeat Expansions are Common in Idiopathic Peripheral Neuropathy. Preprint. medRxiv. 2025;2025.04.18.25325809. Published 2025 Apr 23. doi:10.1101/2025.04.18.25325809
 
 ## License
 See the LICENSE file for details.
